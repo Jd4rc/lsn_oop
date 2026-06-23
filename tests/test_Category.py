@@ -13,3 +13,14 @@ def test_category_count():
     Category('Фрукты', 'Свежие фрукты', [])
 
     assert Category.category_count == 2
+
+
+
+def test_product_count():
+    Category.category_count = 0
+    Category.product_count = 0
+
+    Category('Овощи', 'Свежие овощи', ['Кабачок', 'Капуста'])
+    Category('Фрукты', 'Свежие фрукты', ['Клубника', 'Слива'])
+
+    assert Category.product_count == 4
