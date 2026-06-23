@@ -1,11 +1,12 @@
 import json
+from pathlib import Path
 
 from src.Category import Category
 from src.Product import Product
 
 
 def load_data(
-        path: str,
+        path: str | Path,
 ) -> list[Category]:
     with open(
             path,
