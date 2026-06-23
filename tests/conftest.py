@@ -6,6 +6,6 @@ def vegetable() -> Category:
     return Category(
         name="Овощи",
         description="Свежие овощи",
-        products=[]
+        products=["Огурец", "Помидор"]
     )
 
