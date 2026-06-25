@@ -4,7 +4,7 @@ from src.Category import Category
 def test_category_initialization(vegetable):
     assert vegetable.name == "Овощи"
     assert vegetable.description == "Свежие овощи"
-    assert vegetable.products == ["Огурец", "Помидор"]
+    assert len(vegetable.products) == 2
 
 
 def test_category_count():

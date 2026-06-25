@@ -1,11 +1,11 @@
 from src.Product import Product
 
 
-def test_product_initialization_1(phone):
-    assert phone.name == "Pixel 5"
-    assert phone.description == "123"
-    assert phone.price == 1.1
-    assert phone.quantity == 5
+def test_product_initialization_1(phone_pixel_5):
+    assert phone_pixel_5.name == "Pixel 5"
+    assert phone_pixel_5.description == "123"
+    assert phone_pixel_5.price == 1.1
+    assert phone_pixel_5.quantity == 5
 
 
 def test_product_initialization_2():
