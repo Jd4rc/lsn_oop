@@ -1,5 +1,5 @@
 from src.Product import Product
-
+import pytest
 
 def test_product_initialization_1(phone_pixel_5):
     assert phone_pixel_5.name == "Pixel 5"
@@ -77,3 +77,16 @@ def test_new_product_with_less_price():
 
     assert product.price == 150.0
     assert product.quantity == 12
+
+
+def test_new_product_with_invalid_price():
+    data = {
+        'name': "Iphone 7",
+        'description': "123",
+        'price': 0,
+        'quantity': 4
+    }
+
+
+    with pytest.raises(ValueError):
+        product = Product.new_product(data, [])
