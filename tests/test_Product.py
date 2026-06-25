@@ -1,7 +1,9 @@
 from unittest.mock import Mock
 
-from src.Product import Product
 import pytest
+
+from src.Product import Product
+
 
 def test_product_initialization_1(phone_pixel_5):
     assert phone_pixel_5.name == "Pixel 5"
@@ -23,10 +25,10 @@ def test_new_product():
     old_products = [Product("Old Product", "123", 150.0, 5)]
 
     new_data = {
-        'name': "New Product",
-        'description': "456",
-        'price': 170.0,
-        'quantity': 4
+        "name": "New Product",
+        "description": "456",
+        "price": 170.0,
+        "quantity": 4,
     }
 
     product = Product.new_product(new_data, old_products)
@@ -37,21 +39,13 @@ def test_new_product():
     assert product.price == 170.0
     assert product.quantity == 4
 
+
 def test_new_product_with_dublicates():
-    old_product = Product(
-        'Iphone 7',
-        '32gb',
-        150.0,
-        8
-    )
+    old_product = Product("Iphone 7", "32gb", 150.0, 8)
 
     products = [old_product]
 
-    data = {
-        'name': "Iphone 7",
-        'price': 891.0,
-        'quantity': 4
-    }
+    data = {"name": "Iphone 7", "price": 891.0, "quantity": 4}
 
     product = Product.new_product(data, products)
 
@@ -60,20 +54,11 @@ def test_new_product_with_dublicates():
 
 
 def test_new_product_with_less_price():
-    old_product = Product(
-        'Iphone 7',
-        '32gb',
-        150.0,
-        8
-    )
+    old_product = Product("Iphone 7", "32gb", 150.0, 8)
 
     products = [old_product]
 
-    data = {
-        'name': "Iphone 7",
-        'price': 100.151,
-        'quantity': 4
-    }
+    data = {"name": "Iphone 7", "price": 100.151, "quantity": 4}
 
     product = Product.new_product(data, products)
 
@@ -82,49 +67,33 @@ def test_new_product_with_less_price():
 
 
 def test_new_product_with_invalid_price():
-    data = {
-        'name': "Iphone 7",
-        'description': "123",
-        'price': 0,
-        'quantity': 4
-    }
-
+    data = {"name": "Iphone 7", "description": "123", "price": 0, "quantity": 4}
 
     with pytest.raises(ValueError):
-        product = Product.new_product(data, [])
+        Product.new_product(data, [])
 
 
 def test_price_setter_with_accept_lower_price(monkeypatch):
     mock_input = Mock(return_value="y")
 
-    monkeypatch.setattr('builtins.input', mock_input)
+    monkeypatch.setattr("builtins.input", mock_input)
 
-    product = Product(
-        'Iphone 7',
-        '32gb',
-        150.0,
-        8
-    )
+    product = Product("Iphone 7", "32gb", 150.0, 8)
 
     product.price = 100
 
     mock_input.assert_called_once()
     assert product.price == 100
 
+
 def test_price_setter_with_reject_lower_price(monkeypatch):
     mock_input = Mock(return_value="n")
 
-    monkeypatch.setattr('builtins.input', mock_input)
+    monkeypatch.setattr("builtins.input", mock_input)
 
-    product = Product(
-        'Iphone 7',
-        '32gb',
-        150.0,
-        8
-    )
+    product = Product("Iphone 7", "32gb", 150.0, 8)
 
     product.price = 100
 
     mock_input.assert_called_once()
     assert product.price == 150
-    

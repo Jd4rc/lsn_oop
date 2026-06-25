@@ -6,13 +6,9 @@ from src.Product import Product
 
 
 def load_data(
-        path: str | Path,
+    path: str | Path,
 ) -> list[Category]:
-    with open(
-            path,
-            "r",
-            encoding='UTF-8'
-    ) as f:
+    with open(path, "r", encoding="UTF-8") as f:
         data = json.load(f)
 
     categories = []

@@ -10,20 +10,9 @@ def vegetable() -> Category:
         name="Овощи",
         description="Свежие овощи",
         products=[
-            Product(
-                'Огурец',
-                'Короткоплодный огурец',
-                78.14,
-                5
-            ),
-
-            Product(
-                'Помидор',
-                'Бычье сердце',
-                105.51,
-                15
-            )
-        ]
+            Product("Огурец", "Короткоплодный огурец", 78.14, 5),
+            Product("Помидор", "Бычье сердце", 105.51, 15),
+        ],
     )
 
 
@@ -35,6 +24,7 @@ def phone_pixel_5() -> Product:
         1.1,
         5,
     )
+
 
 @pytest.fixture
 def phone_samsung_s25() -> Product:

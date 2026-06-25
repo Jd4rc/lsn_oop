@@ -26,18 +26,20 @@ def test_product_count():
 
     assert Category.product_count == 4
 
-def test_add_product(phone_pixel_5,vegetable):
-   vegetable.add_product(phone_pixel_5)
 
-   assert len(vegetable.products) == 3
+def test_add_product(phone_pixel_5, vegetable):
+    vegetable.add_product(phone_pixel_5)
+
+    assert len(vegetable.products) == 3
 
 
-def test_add_product_increases_product_count(phone_pixel_5,vegetable):
+def test_add_product_increases_product_count(phone_pixel_5, vegetable):
     initial_count = vegetable.product_count
 
     vegetable.add_product(phone_pixel_5)
 
     assert vegetable.product_count == initial_count + 1
+
 
 def test_add_multiple_product(phone_pixel_5, phone_samsung_s25, vegetable):
 
@@ -48,7 +50,7 @@ def test_add_multiple_product(phone_pixel_5, phone_samsung_s25, vegetable):
 
 
 def test_get_product(vegetable):
-    assert vegetable.products == ['Огурец, 78.14 руб. Остаток: 5 шт.', 'Помидор, 105.51 руб. Остаток: 15 шт.']
-
-
-
+    assert vegetable.products == [
+        "Огурец, 78.14 руб. Остаток: 5 шт.",
+        "Помидор, 105.51 руб. Остаток: 15 шт.",
+    ]
