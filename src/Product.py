@@ -1,3 +1,6 @@
+from itertools import product
+
+
 class Product:
     name: str
     description: str
@@ -53,7 +56,7 @@ class Product:
 
         for product in products:
             if product.name == product_data['name']:
-                product.quantity = product_data['quantity']
+                product.quantity += product_data['quantity']
                 product.price = max(product.price, product_data['price'])
                 return product
 

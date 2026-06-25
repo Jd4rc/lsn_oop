@@ -34,3 +34,24 @@ def test_new_product():
     assert product.description == "456"
     assert product.price == 170.0
     assert product.quantity == 4
+
+def test_new_product_with_dublicates():
+    old_product = Product(
+        'Iphone 7',
+        '32gb',
+        150.0,
+        8
+    )
+
+    products = [old_product]
+
+    data = {
+        'name': "Iphone 7",
+        'price': 891.0,
+        'quantity': 4
+    }
+
+    product = Product.new_product(data, products)
+
+    assert product.price == 891.0
+    assert product.quantity == 12
