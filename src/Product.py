@@ -43,6 +43,13 @@ class Product:
     def price(self, value: float) -> None:
         if value <= 0:
             raise ValueError('Цена не должна быть нулевая или отрицательная')
+
+        if hasattr(self, '_Product__price') and value < self.price:
+            answer = input('Понизить цену: (y/n): ')
+
+            if answer != 'y':
+                return
+
         self.__price = value
 
     @quantity.setter
