@@ -60,8 +60,10 @@ class Product:
     def new_product(
             cls,
             product_data: dict,
-            products: list[Product]
+            products: list[Product] | None = None
     ) -> Product:
+        if products is None:
+            products = []
 
         for product in products:
             if product.name == product_data['name']:
