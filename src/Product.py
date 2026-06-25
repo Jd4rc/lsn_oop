@@ -36,6 +36,30 @@ class Product:
     def quantity(self) -> int:
         return self.__quantity
 
+    @price.setter
+    def price(self, price: float) -> None:
+        self.__price = price
+
+    @quantity.setter
+    def quantity(self, quantity: int) -> None:
+        self.__quantity = quantity
+
     @classmethod
-    def new_product(cls):
-        ...
+    def new_product(
+            cls,
+            product_data: dict,
+            products: list[Product]
+    ) -> Product:
+
+        for product in products:
+            if product.name == product_data['name']:
+                product.quantity = product_data['quantity']
+                product.price = max(product.price, product_data['price'])
+                return product
+
+        return cls(
+            product_data['name'],
+            product_data['description'],
+            product_data['price'],
+            product_data['quantity']
+        )
