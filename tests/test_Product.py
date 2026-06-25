@@ -110,4 +110,21 @@ def test_price_setter_with_accept_lower_price(monkeypatch):
 
     mock_input.assert_called_once()
     assert product.price == 100
+
+def test_price_setter_with_reject_lower_price(monkeypatch):
+    mock_input = Mock(return_value="n")
+
+    monkeypatch.setattr('builtins.input', mock_input)
+
+    product = Product(
+        'Iphone 7',
+        '32gb',
+        150.0,
+        8
+    )
+
+    product.price = 100
+
+    mock_input.assert_called_once()
+    assert product.price == 150
     
