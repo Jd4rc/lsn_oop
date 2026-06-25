@@ -9,7 +9,7 @@ class Product:
             description: str,
             price: float,
             quantity: int
-    ):
+    ) -> None:
         self.name = name
         self.description = description
         self.price = price

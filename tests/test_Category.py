@@ -47,3 +47,8 @@ def test_add_multiple_product(phone_pixel_5, phone_samsung_s25, vegetable):
     assert len(vegetable.products) == 4
 
 
+def test_get_product(vegetable):
+    assert vegetable.products == ['Огурец, 78.14 руб. Остаток: 5 шт.', 'Помидор, 105.51 руб. Остаток: 15 шт.']
+
+
+
