@@ -22,6 +22,9 @@ class Category:
         Category.product_count += 1
 
     @property
-    def products(self) -> list:
-        return self.__products.copy()
+    def products(self) -> list[str]:
+        return [
+            f'{product.name}, {product.price} руб. Остаток: {product.quantity} шт.'
+            for product in self.__products
+        ]
 
