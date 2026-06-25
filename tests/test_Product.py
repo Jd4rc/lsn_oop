@@ -15,3 +15,22 @@ def test_product_initialization_2():
     assert pixel_10.description == "123"
     assert pixel_10.price == 150.0
     assert pixel_10.quantity == 5
+
+
+def test_new_product():
+    old_products = [Product("Old Product", "123", 150.0, 5)]
+
+    new_data = {
+        'name': "New Product",
+        'description': "456",
+        'price': 170.0,
+        'quantity': 4
+    }
+
+    product = Product.new_product(new_data, old_products)
+
+    assert isinstance(product, Product)
+    assert product.name == "New Product"
+    assert product.description == "456"
+    assert product.price == 170.0
+    assert product.quantity == 4
