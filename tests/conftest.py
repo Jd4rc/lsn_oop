@@ -14,10 +14,19 @@ def vegetable() -> Category:
 
 
 @pytest.fixture
-def phone() -> Product:
+def phone_pixel_5() -> Product:
     return Product(
         "Pixel 5",
         "123",
         1.1,
         5,
+    )
+
+@pytest.fixture
+def phone_samsung_s25() -> Product:
+    return Product(
+        "Samsung S25",
+        "456",
+        1.5,
+        2,
     )
