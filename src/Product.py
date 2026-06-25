@@ -15,7 +15,7 @@ class Product:
     ) -> None:
         self.__name = name
         self.__description = description
-        self.__price = price
+        self.price = price
         self.__quantity = quantity
 
     def __repr__(self) -> str:
@@ -40,12 +40,14 @@ class Product:
         return self.__quantity
 
     @price.setter
-    def price(self, price: float) -> None:
-        self.__price = price
+    def price(self, value: float) -> None:
+        if value <= 0:
+            raise ValueError('Цена не должна быть нулевая или отрицательная')
+        self.__price = value
 
     @quantity.setter
-    def quantity(self, quantity: int) -> None:
-        self.__quantity = quantity
+    def quantity(self, value: int) -> None:
+        self.__quantity = value
 
     @classmethod
     def new_product(
