@@ -10,12 +10,32 @@ class Product:
             price: float,
             quantity: int
     ) -> None:
-        self.name = name
-        self.description = description
-        self.price = price
-        self.quantity = quantity
+        self.__name = name
+        self.__description = description
+        self.__price = price
+        self.__quantity = quantity
 
     def __repr__(self) -> str:
         return (
             f'{self.name}, {self.price} руб. Остаток: {self.quantity} шт'
         )
+
+    @property
+    def name(self) -> str:
+        return self.__name
+
+    @property
+    def description(self) -> str:
+        return self.__description
+
+    @property
+    def price(self) -> float:
+        return self.__price
+
+    @property
+    def quantity(self) -> int:
+        return self.__quantity
+
+    @classmethod
+    def new_product(cls):
+        ...
