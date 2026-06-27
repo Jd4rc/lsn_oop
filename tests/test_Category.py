@@ -56,4 +56,7 @@ def test_get_product(vegetable):
     ]
 
 def test_category_len(vegetable):
-    assert len(vegetable.products) == 2
+    assert len(vegetable) == 2
+
+def test_category_str(vegetable):
+    assert str(vegetable) == f"Овощи, количество продуктов: {len(vegetable)} шт."
