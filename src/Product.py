@@ -14,7 +14,7 @@ class Product:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
-        if isinstance(other, Product):
+        if not isinstance(other, Product):
             raise NotImplementedError
 
         return self.price * self.quantity + other.price * other.quantity
