@@ -1,3 +1,5 @@
+import pytest
+
 from src.Category import Category
 
 
@@ -68,3 +70,11 @@ def test_category_iteration(vegetable):
 
     assert str(products[0]) == 'Огурец, 78.14 руб. Остаток: 5 шт.'
     assert str(products[1]) == 'Помидор, 105.51 руб. Остаток: 15 шт.'
+
+def test_category_stop_iteration(vegetable):
+    products = iter(vegetable)
+
+    next(products)
+    next(products)
+    with pytest.raises(StopIteration):
+        next(products)
