@@ -2,22 +2,18 @@ from src.Product import Product
 
 
 class Category:
-    name: str
-    description: str
-    products: list
-
     category_count = 0
     product_count = 0
 
     def __init__(self, name: str, description: str, products: list):
         """
-       Инициализирует объект категории.
+        Инициализирует объект категории.
 
-       Args:
-           name: Название категории.
-           description: Описание категории.
-           products: Список продуктов категории.
-       """
+        Args:
+            name: Название категории.
+            description: Описание категории.
+            products: Список продуктов категории.
+        """
         self.name = name
         self.description = description
         self.__products = products
@@ -27,38 +23,38 @@ class Category:
 
     def __len__(self) -> int:
         """
-       Возвращает количество продуктов в категории.
+        Возвращает количество продуктов в категории.
 
-       Returns:
-           Количество продуктов.
-       """
+        Returns:
+            Количество продуктов.
+        """
         return len(self.__products)
 
     def __str__(self) -> str:
         """
-      Возвращает строковое представление категории.
+        Возвращает строковое представление категории.
 
-      Returns:
-          Строка с названием категории и количеством продуктов.
-      """
+        Returns:
+            Строка с названием категории и количеством продуктов.
+        """
         return f"{self.name}, количество продуктов: {len(self)} шт."
 
     def __iter__(self):
         """
-       Возвращает итератор для перебора продуктов категории.
+        Возвращает итератор для перебора продуктов категории.
 
-       Returns:
-           Объект итератора CategoryIterator.
-       """
+        Returns:
+            Объект итератора CategoryIterator.
+        """
         return CategoryIterator(self.__products)
 
     def add_product(self, product: Product) -> None:
         """
-       Добавляет продукт в категорию.
+        Добавляет продукт в категорию.
 
-       Args:
-           product: Объект класса Product.
-       """
+        Args:
+            product: Объект класса Product.
+        """
         self.__products.append(product)
         Category.product_count += 1
 
@@ -70,25 +66,26 @@ class Category:
     @property
     def total_quantity(self) -> int:
         """
-       Возвращает общее количество единиц товара в категории.
+        Возвращает общее количество единиц товара в категории.
 
-       Returns:
-           Суммарное количество товаров.
-       """
+        Returns:
+            Суммарное количество товаров.
+        """
         return sum(product.quantity for product in self.__products)
 
 
 class CategoryIterator:
     """
-   Итератор для последовательного перебора продуктов категории.
-   """
+    Итератор для последовательного перебора продуктов категории.
+    """
+
     def __init__(self, products: list[Product]) -> None:
         """
-       Инициализирует итератор.
+        Инициализирует итератор.
 
-       Args:
-           products: Список объектов Product для перебора.
-       """
+        Args:
+            products: Список объектов Product для перебора.
+        """
         self.products = products
         self.index = 0
 
@@ -103,14 +100,14 @@ class CategoryIterator:
 
     def __next__(self):
         """
-       Возвращает следующий продукт из коллекции.
+        Возвращает следующий продукт из коллекции.
 
-       Returns:
-           Следующий объект Product.
+        Returns:
+            Следующий объект Product.
 
-       Raises:
-           StopIteration: Если все продукты уже перебраны.
-       """
+        Raises:
+            StopIteration: Если все продукты уже перебраны.
+        """
         if self.index < len(self.products):
             product = self.products[self.index]
             self.index += 1

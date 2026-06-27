@@ -1,47 +1,36 @@
 class Product:
     """
-        Класс, представляющий товар.
+    Класс, представляющий товар.
 
-        Атрибуты:
+    Атрибуты:
+        name: Наименование товара.
+        description: Описание товара.
+        price: Цена товара.
+        quantity: Количество товара на складе.
+    """
+    def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
+        """
+        Инициализирует объект товара.
+
+        Args:
             name: Наименование товара.
             description: Описание товара.
             price: Цена товара.
             quantity: Количество товара на складе.
         """
-
-    name: str
-    description: str
-    price: float
-    quantity: int
-
-
-    def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
-        """
-           Инициализирует объект товара.
-
-           Args:
-               name: Наименование товара.
-               description: Описание товара.
-               price: Цена товара.
-               quantity: Количество товара на складе.
-           """
         self.__name = name
         self.__description = description
         self.price = price
         self.__quantity = quantity
 
-
-
     def __repr__(self) -> str:
-
         """
-       Возвращает строковое представление объекта для отладки.
+        Возвращает строковое представление объекта для отладки.
 
-       Returns:
-           Строковое представление товара.
-       """
+        Returns:
+            Строковое представление товара.
+        """
         return str(self)
-
 
     def __str__(self) -> str:
         """
@@ -73,57 +62,47 @@ class Product:
     @property
     def name(self) -> str:
         """
-       Возвращает название товара.
+        Возвращает название товара.
 
-       Returns:
-           Название товара.
-       """
+        Returns:
+            Название товара.
+        """
         return self.__name
 
     @property
     def description(self) -> str:
         """
-       Возвращает описание товара.
+        Возвращает описание товара.
 
-       Returns:
-           Описание товара.
-       """
+        Returns:
+            Описание товара.
+        """
         return self.__description
 
     @property
     def price(self) -> float:
         """
-       Возвращает цену товара.
+        Возвращает цену товара.
 
-       Returns:
-           Цена товара.
-       """
-        return self.__price
-
-    @property
-    def quantity(self) -> int:
+        Returns:
+            Цена товара.
         """
-       Возвращает количество товара.
-
-       Returns:
-           Количество товара на складе.
-       """
-        return self.__quantity
+        return self.__price
 
     @price.setter
     def price(self, value: float) -> None:
         """
-          Устанавливает цену товара.
+        Устанавливает цену товара.
 
-          Проверяет, что цена положительная. При попытке понизить цену
-          запрашивает подтверждение пользователя.
+        Проверяет, что цена положительная. При попытке понизить цену
+        запрашивает подтверждение пользователя.
 
-          Args:
-              value: Новая цена товара.
+        Args:
+            value: Новая цена товара.
 
-          Raises:
-              ValueError: Если цена меньше либо равна нулю.
-          """
+        Raises:
+            ValueError: Если цена меньше либо равна нулю.
+        """
         if value <= 0:
             raise ValueError("Цена не должна быть нулевая или отрицательная")
 
@@ -135,31 +114,41 @@ class Product:
 
         self.__price = value
 
+    @property
+    def quantity(self) -> int:
+        """
+        Возвращает количество товара.
+
+        Returns:
+            Количество товара на складе.
+        """
+        return self.__quantity
+
     @quantity.setter
     def quantity(self, value: int) -> None:
         """
-       Устанавливает количество товара.
+        Устанавливает количество товара.
 
-       Args:
-           value: Новое количество товара.
-       """
+        Args:
+            value: Новое количество товара.
+        """
         self.__quantity = value
 
     @classmethod
     def new_product(cls, product_data: dict, products: list[Product] | None = None) -> Product:
         """
-       Создает новый товар или обновляет существующий.
+        Создает новый товар или обновляет существующий.
 
-       Если товар с таким названием уже присутствует в списке,
-       увеличивает его количество и оставляет максимальную цену.
+        Если товар с таким названием уже присутствует в списке,
+        увеличивает его количество и оставляет максимальную цену.
 
-       Args:
-           product_data: Словарь с данными о товаре.
-           products: Список существующих товаров.
+        Args:
+            product_data: Словарь с данными о товаре.
+            products: Список существующих товаров.
 
-       Returns:
-           Новый или обновленный объект Product.
-       """
+        Returns:
+            Новый или обновленный объект Product.
+        """
         if products is None:
             products = []
 

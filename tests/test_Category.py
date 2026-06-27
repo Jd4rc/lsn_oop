@@ -56,20 +56,25 @@ def test_get_product(vegetable):
 
     assert str(vegetable.products[1]) == "Помидор, 105.51 руб. Остаток: 15 шт."
 
+
 def test_category_len(vegetable):
     assert len(vegetable) == 2
+
 
 def test_category_str(vegetable):
     assert str(vegetable) == f"Овощи, количество продуктов: {len(vegetable)} шт."
 
+
 def test_category_total_quantity(vegetable):
     assert vegetable.total_quantity == 20
+
 
 def test_category_iteration(vegetable):
     products = list(vegetable)
 
-    assert str(products[0]) == 'Огурец, 78.14 руб. Остаток: 5 шт.'
-    assert str(products[1]) == 'Помидор, 105.51 руб. Остаток: 15 шт.'
+    assert str(products[0]) == "Огурец, 78.14 руб. Остаток: 5 шт."
+    assert str(products[1]) == "Помидор, 105.51 руб. Остаток: 15 шт."
+
 
 def test_category_stop_iteration(vegetable):
     products = iter(vegetable)
