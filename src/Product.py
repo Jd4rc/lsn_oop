@@ -10,8 +10,14 @@ class Product:
         self.price = price
         self.__quantity = quantity
 
-    def __repr__(self) -> str:
-        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт"
+    def __str__(self) -> str:
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):
+        if isinstance(other, Product):
+            raise NotImplementedError
+
+        return self.price * self.quantity + other.price * other.quantity
 
     @property
     def name(self) -> str:
