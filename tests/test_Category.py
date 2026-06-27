@@ -50,10 +50,9 @@ def test_add_multiple_product(phone_pixel_5, phone_samsung_s25, vegetable):
 
 
 def test_get_product(vegetable):
-    assert vegetable.products == [
-        "Огурец, 78.14 руб. Остаток: 5 шт.",
-        "Помидор, 105.51 руб. Остаток: 15 шт.",
-    ]
+    assert str(vegetable.products[0]) == "Огурец, 78.14 руб. Остаток: 5 шт."
+
+    assert str(vegetable.products[1]) == "Помидор, 105.51 руб. Остаток: 15 шт."
 
 def test_category_len(vegetable):
     assert len(vegetable) == 2
