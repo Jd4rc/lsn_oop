@@ -54,3 +54,6 @@ def test_get_product(vegetable):
         "Огурец, 78.14 руб. Остаток: 5 шт.",
         "Помидор, 105.51 руб. Остаток: 15 шт.",
     ]
+
+def test_category_len(vegetable):
+    assert len(vegetable.products) == 2
