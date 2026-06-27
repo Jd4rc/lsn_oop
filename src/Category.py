@@ -23,6 +23,9 @@ class Category:
     def __str__(self) -> str:
         return f"{self.name}, количество продуктов: {len(self)} шт."
 
+    def __iter__(self):
+        return CategoryIterator(self.__products)
+
     def add_product(self, product: Product) -> None:
         self.__products.append(product)
         Category.product_count += 1
@@ -34,3 +37,19 @@ class Category:
     @property
     def total_quantity(self) -> int:
         return sum(product.quantity for product in self.__products)
+
+
+class CategoryIterator:
+    def __init__(self, products: list) -> None:
+        self.products = products
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index < len(self.products):
+            product = self.products[self.index]
+            self.index += 1
+            return product
+        raise StopIteration
