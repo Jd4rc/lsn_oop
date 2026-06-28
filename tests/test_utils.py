@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from src.Category import Category
-from src.Product import Product
+from src.category import Category
+from src.product import Product
 from src.utils import load_data
 
 DATA_PATH = Path(__file__).parent.parent / "data" / "products.json"

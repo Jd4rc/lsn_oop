@@ -1,6 +1,6 @@
 import pytest
 
-from src.Category import Category
+from src.category import Category
 
 
 def test_category_initialization(vegetable):
