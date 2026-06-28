@@ -1,0 +1,5 @@
+[run]
+omit =
+    src/14.1_main.py
+    src/14_2_main.py
+    src/15_1_main.py

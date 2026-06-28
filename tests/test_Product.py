@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from src.Product import Product
+from src.product import Product
 
 
 def test_product_initialization_1(phone_pixel_5):
@@ -97,3 +97,12 @@ def test_price_setter_with_reject_lower_price(monkeypatch):
 
     mock_input.assert_called_once()
     assert product.price == 150
+
+
+def test_product_str(phone_pixel_5, phone_samsung_s25):
+    assert str(phone_pixel_5) == "Pixel 5, 1.1 руб. Остаток: 5 шт."
+    assert str(phone_samsung_s25) == "Samsung S25, 1.5 руб. Остаток: 2 шт."
+
+
+def test_product_add(phone_pixel_5, phone_samsung_s25):
+    assert phone_pixel_5 + phone_samsung_s25 == (5 * 1.1) + (2 * 1.5)

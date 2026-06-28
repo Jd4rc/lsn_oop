@@ -1,4 +1,6 @@
-from src.Category import Category
+import pytest
+
+from src.category import Category
 
 
 def test_category_initialization(vegetable):
@@ -50,7 +52,34 @@ def test_add_multiple_product(phone_pixel_5, phone_samsung_s25, vegetable):
 
 
 def test_get_product(vegetable):
-    assert vegetable.products == [
-        "Огурец, 78.14 руб. Остаток: 5 шт.",
-        "Помидор, 105.51 руб. Остаток: 15 шт.",
-    ]
+    assert str(vegetable.products[0]) == "Огурец, 78.14 руб. Остаток: 5 шт."
+
+    assert str(vegetable.products[1]) == "Помидор, 105.51 руб. Остаток: 15 шт."
+
+
+def test_category_len(vegetable):
+    assert len(vegetable) == 2
+
+
+def test_category_str(vegetable):
+    assert str(vegetable) == f"Овощи, количество продуктов: {len(vegetable)} шт."
+
+
+def test_category_total_quantity(vegetable):
+    assert vegetable.total_quantity == 20
+
+
+def test_category_iteration(vegetable):
+    products = list(vegetable)
+
+    assert str(products[0]) == "Огурец, 78.14 руб. Остаток: 5 шт."
+    assert str(products[1]) == "Помидор, 105.51 руб. Остаток: 15 шт."
+
+
+def test_category_stop_iteration(vegetable):
+    products = iter(vegetable)
+
+    next(products)
+    next(products)
+    with pytest.raises(StopIteration):
+        next(products)
