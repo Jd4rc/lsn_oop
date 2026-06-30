@@ -149,3 +149,80 @@ def test_lawngrass_init():
     assert lawngrass.color == 'Bright green'
 
 
+def test_add_different_product_types():
+    smartphone = Smartphone(
+        "Samsung S25",
+        'Флагман',
+        150000.124,
+        2,
+        96,
+        'Basic',
+        512,
+        'Black'
+
+    )
+
+    lawngrass = LawnGrass(
+        "Lawn Grass",
+        'Трава высокая',
+        2500,
+        5,
+        'Dutch',
+        14,
+        'Bright green'
+    )
+
+    with pytest.raises(TypeError):
+        lawngrass + smartphone
+
+def test_add_same_product_types():
+    smartphone_1 = Smartphone(
+        "Samsung S25",
+        'Флагман',
+        150000.124,
+        2,
+        96,
+        'Basic',
+        512,
+        'Black'
+
+    )
+
+    smartphone_2 = Smartphone(
+        "Samsung S21",
+        'Прошлый флагман',
+        50000.124,
+        5,
+        78,
+        'Pro',
+        128,
+        'Silver'
+
+    )
+    assert smartphone_1 + smartphone_2 == (smartphone_1.price * smartphone_1.quantity) + (smartphone_2.price * smartphone_2.quantity)
+
+def test_add_same_product_types_2():
+    lawngrass_1 = LawnGrass(
+        "Lawn Grass",
+        'Трава высокая',
+        2500,
+        5,
+        'Dutch',
+        14,
+        'Bright green'
+    )
+
+    lawngrass_2 = LawnGrass(
+        "Lawn Grass",
+        'Трава высокая',
+        1500,
+        1,
+        'Dutch',
+        14,
+        'Bright green'
+    )
+
+    assert lawngrass_1 + lawngrass_2 == (lawngrass_1.price * lawngrass_1.quantity) + (lawngrass_2.price * lawngrass_2.quantity)
+
+
+
