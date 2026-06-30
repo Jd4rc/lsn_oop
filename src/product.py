@@ -52,10 +52,10 @@ class Product:
             Суммарная стоимость товаров (цена × количество).
 
         Raises:
-            NotImplementedError: Если второй операнд не является объектом Product.
+            TypeError:  Если операнды принадлежат разным классам.
         """
-        if not isinstance(other, Product):
-            return NotImplementedError
+        if type(self) is not type(other):
+            raise TypeError('Невозможно сложить объекты разных классов')
 
         return self.price * self.quantity + other.price * other.quantity
 
