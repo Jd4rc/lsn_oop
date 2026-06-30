@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from src.product import Product
+from src.product import Product, Smartphone, LawnGrass
 
 
 def test_product_initialization_1(phone_pixel_5):
@@ -106,3 +106,46 @@ def test_product_str(phone_pixel_5, phone_samsung_s25):
 
 def test_product_add(phone_pixel_5, phone_samsung_s25):
     assert phone_pixel_5 + phone_samsung_s25 == (5 * 1.1) + (2 * 1.5)
+
+def test_smartphone_init():
+    smartphone = Smartphone(
+        "Samsung S25",
+        'Флагман',
+        150000.124,
+        2,
+        96,
+        'Basic',
+        512,
+        'Black'
+
+    )
+
+    assert smartphone.name == "Samsung S25"
+    assert smartphone.description == 'Флагман'
+    assert smartphone.price == 150000.124
+    assert smartphone.quantity == 2
+    assert smartphone.efficiency == 96
+    assert smartphone.model == 'Basic'
+    assert smartphone.memory == 512
+    assert smartphone.color == 'Black'
+
+def test_lawngrass_init():
+    lawngrass = LawnGrass(
+        "Lawn Grass",
+        'Трава высокая',
+        2500,
+        5,
+        'Dutch',
+        14,
+        'Bright green'
+    )
+
+    assert lawngrass.name == "Lawn Grass"
+    assert lawngrass.description == 'Трава высокая'
+    assert lawngrass.price == 2500
+    assert lawngrass.quantity == 5
+    assert lawngrass.country == 'Dutch'
+    assert lawngrass.germination_period == 14
+    assert lawngrass.color == 'Bright green'
+
+

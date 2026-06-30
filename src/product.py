@@ -192,7 +192,7 @@ class LawnGrass(Product):
     """Класс, представляющий газонную траву."""
 
 
-    def __init__(self, name: str, description: str, price: float, quantity: int, country: str, germination_period: str,
+    def __init__(self, name: str, description: str, price: float, quantity: int, country: str, germination_period: int,
                  color: str) -> None:
         """
                 Инициализирует объект газонной травы.
