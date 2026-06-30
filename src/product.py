@@ -164,3 +164,49 @@ class Product:
             product_data["price"],
             product_data["quantity"],
         )
+
+class Smartphone(Product):
+    """ класс, представляющий смартфон """
+    def __init__(self, name: str, description: str, price: float, quantity: int, efficiency: int, model: str, memory: int, color: str) -> None:
+        """
+       Инициализирует объект смартфона.
+
+       Args:
+           name: Название смартфона.
+           description: Описание смартфона.
+           price: Цена смартфона.
+           quantity: Количество смартфонов на складе.
+           efficiency: Производительность смартфона.
+           model: Модель смартфона.
+           memory: Объем памяти смартфона.
+           color: Цвет смартфона.
+       """
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    """Класс, представляющий газонную траву."""
+
+
+    def __init__(self, name: str, description: str, price: float, quantity: int, country: str, germination_period: str,
+                 color: str) -> None:
+        """
+                Инициализирует объект газонной травы.
+
+                Args:
+                    name: Название газонной травы.
+                    description: Описание газонной травы.
+                    price: Цена газонной травы.
+                    quantity: Количество упаковок на складе.
+                    country: Страна-производитель.
+                    germination_period: Срок прорастания.
+                    color: Цвет травы.
+                """
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
