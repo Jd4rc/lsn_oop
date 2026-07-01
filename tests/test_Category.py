@@ -1,6 +1,7 @@
 import pytest
 
 from src.category import Category
+from src.product import Smartphone
 
 
 def test_category_initialization(vegetable):
@@ -32,11 +33,12 @@ def test_product_count():
 def test_add_product(phone_pixel_5, vegetable):
     vegetable.add_product(phone_pixel_5)
 
+    assert phone_pixel_5 in vegetable.products
     assert len(vegetable.products) == 3
 
 
 def test_add_product_increases_product_count(phone_pixel_5, vegetable):
-    initial_count = vegetable.product_count
+    initial_count = Category.product_count
 
     vegetable.add_product(phone_pixel_5)
 
@@ -49,6 +51,26 @@ def test_add_multiple_product(phone_pixel_5, phone_samsung_s25, vegetable):
     vegetable.add_product(phone_samsung_s25)
 
     assert len(vegetable.products) == 4
+    assert phone_pixel_5 in vegetable.products
+    assert phone_samsung_s25 in vegetable.products
+
+def test_category_add_product_another_class():
+
+    category = Category("Смартфоны", "Высокотехнологичные смартфоны", [])
+
+    with pytest.raises(TypeError, match='Ожидался Product, получен str'):
+        category.add_product('123')
+
+def test_add_invalid_product_does_not_change_category(vegetable):
+    init_count = Category.product_count
+    init_len = len(vegetable.products)
+
+    with pytest.raises(TypeError):
+        vegetable.add_product('123')
+
+    assert vegetable.product_count == init_count
+    assert len(vegetable.products) == init_len
+
 
 
 def test_get_product(vegetable):
