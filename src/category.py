@@ -57,7 +57,7 @@ class Category:
         """
 
         if not isinstance(product, Product):
-            raise TypeError(f'Ожидался Product, получен {type(product).__name__} ')
+            raise TypeError(f"Ожидался Product, получен {type(product).__name__} ")
 
         self.__products.append(product)
         Category.product_count += 1

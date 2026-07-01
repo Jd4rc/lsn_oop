@@ -2,7 +2,9 @@ from unittest.mock import Mock
 
 import pytest
 
-from src.product import Product, Smartphone, LawnGrass
+from src.product import LawnGrass
+from src.product import Product
+from src.product import Smartphone
 
 
 def test_product_initialization_1(phone_pixel_5):
@@ -107,122 +109,55 @@ def test_product_str(phone_pixel_5, phone_samsung_s25):
 def test_product_add(phone_pixel_5, phone_samsung_s25):
     assert phone_pixel_5 + phone_samsung_s25 == (5 * 1.1) + (2 * 1.5)
 
-def test_smartphone_init():
-    smartphone = Smartphone(
-        "Samsung S25",
-        'Флагман',
-        150000.124,
-        2,
-        96,
-        'Basic',
-        512,
-        'Black'
 
-    )
+def test_smartphone_init():
+    smartphone = Smartphone("Samsung S25", "Флагман", 150000.124, 2, 96, "Basic", 512, "Black")
 
     assert smartphone.name == "Samsung S25"
-    assert smartphone.description == 'Флагман'
+    assert smartphone.description == "Флагман"
     assert smartphone.price == 150000.124
     assert smartphone.quantity == 2
     assert smartphone.efficiency == 96
-    assert smartphone.model == 'Basic'
+    assert smartphone.model == "Basic"
     assert smartphone.memory == 512
-    assert smartphone.color == 'Black'
+    assert smartphone.color == "Black"
+
 
 def test_lawngrass_init():
-    lawngrass = LawnGrass(
-        "Lawn Grass",
-        'Трава высокая',
-        2500,
-        5,
-        'Dutch',
-        14,
-        'Bright green'
-    )
+    lawngrass = LawnGrass("Lawn Grass", "Трава высокая", 2500, 5, "Dutch", 14, "Bright green")
 
     assert lawngrass.name == "Lawn Grass"
-    assert lawngrass.description == 'Трава высокая'
+    assert lawngrass.description == "Трава высокая"
     assert lawngrass.price == 2500
     assert lawngrass.quantity == 5
-    assert lawngrass.country == 'Dutch'
+    assert lawngrass.country == "Dutch"
     assert lawngrass.germination_period == 14
-    assert lawngrass.color == 'Bright green'
+    assert lawngrass.color == "Bright green"
 
 
 def test_add_different_product_types():
-    smartphone = Smartphone(
-        "Samsung S25",
-        'Флагман',
-        150000.124,
-        2,
-        96,
-        'Basic',
-        512,
-        'Black'
+    smartphone = Smartphone("Samsung S25", "Флагман", 150000.124, 2, 96, "Basic", 512, "Black")
 
-    )
-
-    lawngrass = LawnGrass(
-        "Lawn Grass",
-        'Трава высокая',
-        2500,
-        5,
-        'Dutch',
-        14,
-        'Bright green'
-    )
+    lawngrass = LawnGrass("Lawn Grass", "Трава высокая", 2500, 5, "Dutch", 14, "Bright green")
 
     with pytest.raises(TypeError):
         lawngrass + smartphone
 
+
 def test_add_same_product_types():
-    smartphone_1 = Smartphone(
-        "Samsung S25",
-        'Флагман',
-        150000.124,
-        2,
-        96,
-        'Basic',
-        512,
-        'Black'
+    smartphone_1 = Smartphone("Samsung S25", "Флагман", 150000.124, 2, 96, "Basic", 512, "Black")
 
+    smartphone_2 = Smartphone("Samsung S21", "Прошлый флагман", 50000.124, 5, 78, "Pro", 128, "Silver")
+    assert smartphone_1 + smartphone_2 == (smartphone_1.price * smartphone_1.quantity) + (
+        smartphone_2.price * smartphone_2.quantity
     )
 
-    smartphone_2 = Smartphone(
-        "Samsung S21",
-        'Прошлый флагман',
-        50000.124,
-        5,
-        78,
-        'Pro',
-        128,
-        'Silver'
-
-    )
-    assert smartphone_1 + smartphone_2 == (smartphone_1.price * smartphone_1.quantity) + (smartphone_2.price * smartphone_2.quantity)
 
 def test_add_same_product_types_2():
-    lawngrass_1 = LawnGrass(
-        "Lawn Grass",
-        'Трава высокая',
-        2500,
-        5,
-        'Dutch',
-        14,
-        'Bright green'
+    lawngrass_1 = LawnGrass("Lawn Grass", "Трава высокая", 2500, 5, "Dutch", 14, "Bright green")
+
+    lawngrass_2 = LawnGrass("Lawn Grass", "Трава высокая", 1500, 1, "Dutch", 14, "Bright green")
+
+    assert lawngrass_1 + lawngrass_2 == (lawngrass_1.price * lawngrass_1.quantity) + (
+        lawngrass_2.price * lawngrass_2.quantity
     )
-
-    lawngrass_2 = LawnGrass(
-        "Lawn Grass",
-        'Трава высокая',
-        1500,
-        1,
-        'Dutch',
-        14,
-        'Bright green'
-    )
-
-    assert lawngrass_1 + lawngrass_2 == (lawngrass_1.price * lawngrass_1.quantity) + (lawngrass_2.price * lawngrass_2.quantity)
-
-
-
