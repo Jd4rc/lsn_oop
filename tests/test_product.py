@@ -1,3 +1,5 @@
+from email import message
+from multiprocessing.context import assert_spawning
 from unittest.mock import Mock
 
 import pytest
@@ -184,3 +186,18 @@ def test_lawngrass_can_be_created():
     )
 
     assert isinstance(grass, LawnGrass)
+
+
+def test_log_mixin(capsys):
+    Product('Avocado', 'Hass avocado', 150.16, 19)
+
+
+    message = capsys.readouterr().out
+
+
+    assert 'Создан объект Product' in message
+    assert 'Avocado' in message
+    assert 'Hass avocado' in message
+    assert '150.16' in message
+    assert '_Product__name' in message
+    assert '19' in message
