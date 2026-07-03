@@ -2,6 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
+from src.product import BaseProduct
 from src.product import LawnGrass
 from src.product import Product
 from src.product import Smartphone
@@ -161,3 +162,25 @@ def test_add_same_product_types_2():
     assert lawngrass_1 + lawngrass_2 == (lawngrass_1.price * lawngrass_1.quantity) + (
         lawngrass_2.price * lawngrass_2.quantity
     )
+
+def test_base_product_is_abstract():
+    with pytest.raises(TypeError, match="Can't instantiate abstract class"):
+        BaseProduct()
+
+def test_product_can_be_created():
+    product = Product('Avocado', 'Hass avocado', 150.16, 19)
+
+    assert isinstance(product, Product)
+
+def test_lawngrass_can_be_created():
+    grass = LawnGrass(
+        'Bermuda',
+        'heat-tolerant grasses',
+        151.6,
+        1515,
+        'California',
+        15,
+        'dark green '
+    )
+
+    assert isinstance(grass, LawnGrass)
