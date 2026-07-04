@@ -1,5 +1,3 @@
-from email import message
-from multiprocessing.context import assert_spawning
 from unittest.mock import Mock
 
 import pytest
@@ -165,39 +163,32 @@ def test_add_same_product_types_2():
         lawngrass_2.price * lawngrass_2.quantity
     )
 
+
 def test_base_product_is_abstract():
     with pytest.raises(TypeError, match="Can't instantiate abstract class"):
         BaseProduct()
 
+
 def test_product_can_be_created():
-    product = Product('Avocado', 'Hass avocado', 150.16, 19)
+    product = Product("Avocado", "Hass avocado", 150.16, 19)
 
     assert isinstance(product, Product)
 
+
 def test_lawngrass_can_be_created():
-    grass = LawnGrass(
-        'Bermuda',
-        'heat-tolerant grasses',
-        151.6,
-        1515,
-        'California',
-        15,
-        'dark green '
-    )
+    grass = LawnGrass("Bermuda", "heat-tolerant grasses", 151.6, 1515, "California", 15, "dark green ")
 
     assert isinstance(grass, LawnGrass)
 
 
 def test_log_mixin(capsys):
-    Product('Avocado', 'Hass avocado', 150.16, 19)
-
+    Product("Avocado", "Hass avocado", 150.16, 19)
 
     message = capsys.readouterr().out
 
-
-    assert 'Создан объект Product' in message
-    assert 'Avocado' in message
-    assert 'Hass avocado' in message
-    assert '150.16' in message
-    assert '_Product__name' in message
-    assert '19' in message
+    assert "Создан объект Product" in message
+    assert "Avocado" in message
+    assert "Hass avocado" in message
+    assert "150.16" in message
+    assert "_Product__name" in message
+    assert "19" in message

@@ -1,5 +1,8 @@
+from abc import ABC
+from abc import abstractmethod
+
 from src.product import Product
-from abc import ABC, abstractmethod
+
 
 class BasePrintable(ABC):
     @abstractmethod
@@ -124,20 +127,21 @@ class CategoryIterator:
             return product
         raise StopIteration
 
+
 class Order(BasePrintable):
     """Класс, представляющий заказ на покупку одного товара."""
 
     def __init__(self, product: Product, quantity: int) -> None:
         """
-       Инициализирует заказ.
+        Инициализирует заказ.
 
-       Args:
-           product: Купленный товар.
-           quantity: Количество купленного товара.
-       """
+        Args:
+            product: Купленный товар.
+            quantity: Количество купленного товара.
+        """
 
         if not isinstance(product, Product):
-            raise TypeError('Ожидался объект Product.')
+            raise TypeError("Ожидался объект Product.")
 
         self.product = product
         self.quantity = quantity
@@ -145,11 +149,11 @@ class Order(BasePrintable):
 
     def __str__(self) -> str:
         """
-   Возвращает строковое представление заказа.
+        Возвращает строковое представление заказа.
 
-   Returns:
-       Строка с информацией о товаре, количестве и итоговой стоимости.
-   """
+        Returns:
+            Строка с информацией о товаре, количестве и итоговой стоимости.
+        """
         return (
             f"Заказ с продуктом: {self.product.name}. "
             f"Количество: {self.quantity}, "

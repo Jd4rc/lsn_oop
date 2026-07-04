@@ -1,8 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 
 
 class BaseProduct(ABC):
-    """ базовый абстрактный родительский класс для продуктов """
+    """базовый абстрактный родительский класс для продуктов"""
+
     @abstractmethod
     def __str__(self) -> str:
         """Возвращает строковое представление товара."""
@@ -13,11 +15,12 @@ class BaseProduct(ABC):
         """Возвращает суммарную стоимость товаров."""
         pass
 
+
 class LogMixin:
-    """ класс-миксин, печатает в консоль информацию о том, от какого класса и с какими параметрами был создан объект """
+    """класс-миксин, печатает в консоль информацию о том, от какого класса и с какими параметрами был создан объект"""
+
     def log_creation(self):
-        print(f'Создан объект {self.__class__.__name__}  '
-              f'с параметрами: {self.__dict__}')
+        print(f"Создан объект {self.__class__.__name__}  " f"с параметрами: {self.__dict__}")
 
 
 class Product(LogMixin, BaseProduct):
@@ -48,7 +51,6 @@ class Product(LogMixin, BaseProduct):
         self.__quantity = quantity
 
         self.log_creation()
-
 
     def __repr__(self) -> str:
         """
