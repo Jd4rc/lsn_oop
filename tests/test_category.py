@@ -1,6 +1,7 @@
 import pytest
 
-from src.category import Category
+from src.category import Category, Order
+from src.product import Product
 
 
 def test_category_initialization(vegetable):
@@ -105,3 +106,24 @@ def test_category_stop_iteration(vegetable):
     next(products)
     with pytest.raises(StopIteration):
         next(products)
+
+def test_make_order():
+    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+
+    order = Order(product1, 2)
+
+    assert order.product is product1
+    assert order.quantity == 2
+    assert order.total_price == 360000.0
+
+
+def test_order_str():
+    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+
+    order = Order(product1, 2)
+
+    assert str(order) == (
+        'Заказ с продуктом: Samsung Galaxy S23 Ultra. '
+        'Количество: 2, '
+        'на сумму: 360000.0'
+    )
