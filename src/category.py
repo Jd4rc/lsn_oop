@@ -1,7 +1,13 @@
 from src.product import Product
+from abc import ABC, abstractmethod
+
+class BasePrintable(ABC):
+    @abstractmethod
+    def __str__(self) -> str:
+        pass
 
 
-class Category:
+class Category(BasePrintable):
     category_count = 0
     product_count = 0
 
@@ -117,3 +123,35 @@ class CategoryIterator:
             self.index += 1
             return product
         raise StopIteration
+
+class Order(BasePrintable):
+    """Класс, представляющий заказ на покупку одного товара."""
+
+    def __init__(self, product: Product, quantity: int) -> None:
+        """
+       Инициализирует заказ.
+
+       Args:
+           product: Купленный товар.
+           quantity: Количество купленного товара.
+       """
+
+        if not isinstance(product, Product):
+            raise TypeError('Ожидался объект Product.')
+
+        self.product = product
+        self.quantity = quantity
+        self.total_price = product.price * self.quantity
+
+    def __str__(self) -> str:
+        """
+   Возвращает строковое представление заказа.
+
+   Returns:
+       Строка с информацией о товаре, количестве и итоговой стоимости.
+   """
+        return (
+            f"Заказ с продуктом: {self.product.name}. "
+            f"Количество: {self.quantity}, "
+            f"на сумму: {self.total_price}"
+        )
