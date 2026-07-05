@@ -72,9 +72,14 @@ class Category(BasePrintable):
         Category.product_count += 1
 
     @property
-    def products(self):
+    def products_list(self):
         """Возвращает список продуктов категории."""
-        return self.__products
+        return tuple(self.__products)
+
+    @property
+    def products(self):
+        """возращает строковое представелние всех продуктов категории"""
+        return "\n".join(str(product) for product in self.__products)
 
     @property
     def total_quantity(self) -> int:
