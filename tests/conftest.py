@@ -62,6 +62,14 @@ def vegetable(cucumber, tomato) -> Category:
         products=[cucumber, tomato],
     )
 
+@pytest.fixture
+def fruits() -> Category:
+    return Category(
+        name="Фрукты",
+        description="Свежие фрукты",
+        products=[],
+    )
+
 
 @pytest.fixture
 def smartphones(

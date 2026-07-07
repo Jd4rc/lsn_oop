@@ -141,3 +141,10 @@ def test_order_str():
     order = Order(product1, 2)
 
     assert str(order) == ("Заказ с продуктом: Samsung Galaxy S23 Ultra. " "Количество: 2, " "на сумму: 360000.0")
+
+
+def test_middle_price_access(vegetable):
+    assert vegetable.middle_price == sum(product.price * product.quantity for product in vegetable.products_list) / vegetable.total_quantity
+
+def test_middle_price_with_empty_category(fruits):
+    assert fruits.middle_price == 0
