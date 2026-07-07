@@ -44,6 +44,9 @@ class Product(LogMixin, BaseProduct):
             price: Цена товара.
             quantity: Количество товара на складе.
         """
+        if quantity == 0:
+            raise ValueError('Товар с нулевым количеством не может быть добавлен')
+
 
         self.__name = name
         self.__description = description
