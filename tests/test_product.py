@@ -192,3 +192,13 @@ def test_log_mixin(capsys):
     assert "150.16" in message
     assert "_Product__name" in message
     assert "19" in message
+
+
+def test_product_with_zero_quantity_raises_value_error():
+    with pytest.raises(ValueError, match='Товар с нулевым количеством не может быть добавлен'):
+        Product("Avocado", "Hass avocado", 150.16, 0)
+
+def test_product_with_negative_quantity_raises_value_error():
+    with pytest.raises(ValueError, match='Товар с нулевым количеством не может быть добавлен'):
+        Product("Avocado", "Hass avocado", 150.16, -5)
+

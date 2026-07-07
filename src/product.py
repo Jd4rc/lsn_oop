@@ -44,7 +44,7 @@ class Product(LogMixin, BaseProduct):
             price: Цена товара.
             quantity: Количество товара на складе.
         """
-        if quantity == 0:
+        if quantity <= 0:
             raise ValueError('Товар с нулевым количеством не может быть добавлен')
 
 
@@ -242,7 +242,7 @@ class LawnGrass(Product):
         price: float,
         quantity: int,
         country: str,
-        germination_period: str,
+        germination_period: int,
         color: str,
     ) -> None:
         """
