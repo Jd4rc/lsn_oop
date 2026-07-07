@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from src.product import BaseProduct
+from src.product import BaseProduct, InvalidQuantityError
 from src.product import LawnGrass
 from src.product import Product
 from src.product import Smartphone
@@ -195,10 +195,10 @@ def test_log_mixin(capsys):
 
 
 def test_product_with_zero_quantity_raises_value_error():
-    with pytest.raises(ValueError, match='Товар с нулевым количеством не может быть добавлен'):
+    with pytest.raises(InvalidQuantityError, match='Недопустимое количество товара: 0'):
         Product("Avocado", "Hass avocado", 150.16, 0)
 
 def test_product_with_negative_quantity_raises_value_error():
-    with pytest.raises(ValueError, match='Товар с нулевым количеством не может быть добавлен'):
+    with pytest.raises(InvalidQuantityError, match='Недопустимое количество товара: -5'):
         Product("Avocado", "Hass avocado", 150.16, -5)
 

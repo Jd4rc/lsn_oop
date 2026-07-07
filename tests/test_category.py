@@ -144,7 +144,7 @@ def test_order_str():
 
 
 def test_middle_price_access(vegetable):
-    assert vegetable.middle_price == sum(product.price * product.quantity for product in vegetable.products_list) / vegetable.total_quantity
+    assert vegetable.middle_price() == sum(product.price * product.quantity for product in vegetable.products_list) / vegetable.total_quantity
 
 def test_middle_price_with_empty_category(fruits):
-    assert fruits.middle_price == 0
+    assert fruits.middle_price() == 0

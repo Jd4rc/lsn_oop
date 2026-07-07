@@ -91,7 +91,6 @@ class Category(BasePrintable):
         """
         return sum(product.quantity for product in self.__products)
 
-    @property
     def middle_price(self):
         try:
             total_cost = sum(product.price * product.quantity for product in self.__products)
