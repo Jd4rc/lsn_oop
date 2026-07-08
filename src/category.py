@@ -1,7 +1,8 @@
 from abc import ABC
 from abc import abstractmethod
 
-from src.product import Product, InvalidQuantityError
+from src.product import InvalidQuantityError
+from src.product import Product
 
 
 class BasePrintable(ABC):

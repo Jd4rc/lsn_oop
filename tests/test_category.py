@@ -2,7 +2,8 @@ import pytest
 
 from src.category import Category
 from src.category import Order
-from src.product import Product, InvalidQuantityError
+from src.product import InvalidQuantityError
+from src.product import Product
 
 
 def test_category_initialization(vegetable):
@@ -144,7 +145,11 @@ def test_order_str():
 
 
 def test_middle_price_access(vegetable):
-    assert vegetable.middle_price() == sum(product.price * product.quantity for product in vegetable.products_list) / vegetable.total_quantity
+    assert (
+        vegetable.middle_price()
+        == sum(product.price * product.quantity for product in vegetable.products_list) / vegetable.total_quantity
+    )
+
 
 def test_middle_price_with_empty_category(fruits):
     assert fruits.middle_price() == 0
@@ -153,15 +158,16 @@ def test_middle_price_with_empty_category(fruits):
 def test_make_order_with_quantity_zero():
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
 
-    with pytest.raises(InvalidQuantityError, match='Недопустимое количество товара: 0'):
+    with pytest.raises(InvalidQuantityError, match="Недопустимое количество товара: 0"):
         Order(product1, 0)
 
 
 def test_make_order_with_quantity_negative():
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
 
-    with pytest.raises(InvalidQuantityError, match='Недопустимое количество товара: -2'):
+    with pytest.raises(InvalidQuantityError, match="Недопустимое количество товара: -2"):
         Order(product1, -2)
+
 
 def test_make_order_with_quantity_over():
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
@@ -169,7 +175,5 @@ def test_make_order_with_quantity_over():
     order = Order(product1, 6)
 
     assert str(order) == (
-            f"Заказ с продуктом: {product1.name}. "
-            f"Количество: {order.quantity}, "
-            f"на сумму: {order.total_price}"
-        )
+        f"Заказ с продуктом: {product1.name}. " f"Количество: {order.quantity}, " f"на сумму: {order.total_price}"
+    )

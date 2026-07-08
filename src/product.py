@@ -18,12 +18,11 @@ class BaseProduct(ABC):
 
 class InvalidQuantityError(Exception):
     """Недопустимое количество товара."""
+
     def __init__(self, quantity: int) -> None:
         self.quantity = quantity
 
-        super().__init__(
-            f'Недопустимое количество товара: {quantity}'
-        )
+        super().__init__(f"Недопустимое количество товара: {quantity}")
 
 
 class LogMixin:
@@ -56,7 +55,6 @@ class Product(LogMixin, BaseProduct):
         """
         if quantity <= 0:
             raise InvalidQuantityError(quantity)
-
 
         self.__name = name
         self.__description = description
@@ -252,7 +250,7 @@ class LawnGrass(Product):
         price: float,
         quantity: int,
         country: str,
-        germination_period: int,
+        germination_period: str,
         color: str,
     ) -> None:
         """
