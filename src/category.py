@@ -1,6 +1,7 @@
 from abc import ABC
 from abc import abstractmethod
 
+from src.product import InvalidQuantityError
 from src.product import Product
 
 
@@ -91,6 +92,13 @@ class Category(BasePrintable):
         """
         return sum(product.quantity for product in self.__products)
 
+    def middle_price(self):
+        try:
+            total_cost = sum(product.price * product.quantity for product in self.__products)
+            return total_cost / self.total_quantity
+        except ZeroDivisionError:
+            return 0
+
 
 class CategoryIterator:
     """
@@ -144,6 +152,9 @@ class Order(BasePrintable):
             product: Купленный товар.
             quantity: Количество купленного товара.
         """
+
+        if quantity <= 0:
+            raise InvalidQuantityError(quantity)
 
         if not isinstance(product, Product):
             raise TypeError("Ожидался объект Product.")

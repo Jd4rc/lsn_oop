@@ -16,6 +16,15 @@ class BaseProduct(ABC):
         pass
 
 
+class InvalidQuantityError(Exception):
+    """Недопустимое количество товара."""
+
+    def __init__(self, quantity: int) -> None:
+        self.quantity = quantity
+
+        super().__init__(f"Недопустимое количество товара: {quantity}")
+
+
 class LogMixin:
     """класс-миксин, печатает в консоль информацию о том, от какого класса и с какими параметрами был создан объект"""
 
@@ -44,6 +53,8 @@ class Product(LogMixin, BaseProduct):
             price: Цена товара.
             quantity: Количество товара на складе.
         """
+        if quantity <= 0:
+            raise InvalidQuantityError(quantity)
 
         self.__name = name
         self.__description = description
