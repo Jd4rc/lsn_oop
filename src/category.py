@@ -1,7 +1,7 @@
 from abc import ABC
 from abc import abstractmethod
 
-from src.product import Product
+from src.product import Product, InvalidQuantityError
 
 
 class BasePrintable(ABC):
@@ -151,6 +151,9 @@ class Order(BasePrintable):
             product: Купленный товар.
             quantity: Количество купленного товара.
         """
+
+        if quantity <= 0:
+            raise InvalidQuantityError(quantity)
 
         if not isinstance(product, Product):
             raise TypeError("Ожидался объект Product.")
