@@ -1,6 +1,8 @@
 from abc import ABC
 from abc import abstractmethod
 
+from src.exceptions import InvalidQuantityError
+
 
 class BaseProduct(ABC):
     """базовый абстрактный родительский класс для продуктов"""
@@ -14,16 +16,6 @@ class BaseProduct(ABC):
     def __add__(self, other):
         """Возвращает суммарную стоимость товаров."""
         pass
-
-
-class InvalidQuantityError(Exception):
-    """Недопустимое количество товара."""
-
-    def __init__(self, quantity: int) -> None:
-        self.quantity = quantity
-
-        super().__init__(f"Недопустимое количество товара: {quantity}")
-
 
 class LogMixin:
     """класс-миксин, печатает в консоль информацию о том, от какого класса и с какими параметрами был создан объект"""

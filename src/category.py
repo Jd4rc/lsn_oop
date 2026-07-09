@@ -1,7 +1,7 @@
 from abc import ABC
 from abc import abstractmethod
 
-from src.product import InvalidQuantityError
+from src.exceptions import InvalidQuantityError
 from src.product import Product
 
 
@@ -144,24 +144,46 @@ class CategoryIterator:
 class Order(BasePrintable):
     """Класс, представляющий заказ на покупку одного товара."""
 
-    def __init__(self, product: Product, quantity: int) -> None:
+    def __init__(self) -> None:
         """
         Инициализирует заказ.
-
-        Args:
-            product: Купленный товар.
-            quantity: Количество купленного товара.
         """
+        self.items = []
+        self.status = 'open'
+
+
+    def add_item(
+            self,
+            product: Product,
+            quantity: int,
+    ) -> None:
+        if not isinstance(product, Product):
+            raise TypeError("Ожидался объект Product.")
 
         if quantity <= 0:
             raise InvalidQuantityError(quantity)
 
-        if not isinstance(product, Product):
-            raise TypeError("Ожидался объект Product.")
+        self.items.append((product, quantity))
 
-        self.product = product
-        self.quantity = quantity
-        self.total_price = product.price * self.quantity
+    @property
+    def total_price(self):
+        return sum(
+            product.price * quantity
+            for product, quantity in self.items
+        )
+
+    def pay(self, payment_type, security_code):
+        if payment_type == 'debit':
+            print('Обработка дебетового типа платежа')
+            print(f'Проверка кода безопасности: {security_code}')
+            self.status = 'paid'
+        elif payment_type == 'credit':
+            print('Обработка кредитного типа платежа')
+            print(f'Проверка кода безопасности: {security_code}')
+            self.status = 'paid'
+        else:
+            raise Exception(f'Неизвестный способ оплаты: {payment_type}')
+
 
     def __str__(self) -> str:
         """
@@ -170,8 +192,12 @@ class Order(BasePrintable):
         Returns:
             Строка с информацией о товаре, количестве и итоговой стоимости.
         """
+        items = ', '.join(
+            f'{product.name}: {quantity}'
+            for product, quantity in self.items
+        )
+
         return (
-            f"Заказ с продуктом: {self.product.name}. "
-            f"Количество: {self.quantity}, "
-            f"на сумму: {self.total_price}"
+            f"Заказ: {items}, "
+            f"На сумму: {self.total_price} руб"
         )
