@@ -180,6 +180,4 @@ def test_make_order_with_quantity_over():
     order = Order()
 
     order.add_item(product1, 6)
-    assert str(order) == (
-        f"Заказ: Samsung Galaxy S23 Ultra: 6, На сумму: {product1.price * 6} руб"
-    )
+    assert str(order) == (f"Заказ: Samsung Galaxy S23 Ultra: 6, На сумму: {product1.price * 6} руб")

@@ -1,5 +1,6 @@
 from abc import ABC
 from abc import abstractmethod
+from itertools import product
 
 from src.exceptions import InvalidQuantityError
 from src.product import Product
@@ -148,14 +149,13 @@ class Order(BasePrintable):
         """
         Инициализирует заказ.
         """
-        self.items = []
-        self.status = 'open'
-
+        self.items: list[tuple[Product, int]] = []
+        self.status = "open"
 
     def add_item(
-            self,
-            product: Product,
-            quantity: int,
+        self,
+        product: Product,
+        quantity: int,
     ) -> None:
         if not isinstance(product, Product):
             raise TypeError("Ожидался объект Product.")
@@ -167,23 +167,19 @@ class Order(BasePrintable):
 
     @property
     def total_price(self):
-        return sum(
-            product.price * quantity
-            for product, quantity in self.items
-        )
+        return sum(product.price * quantity for product, quantity in self.items)
 
     def pay(self, payment_type, security_code):
-        if payment_type == 'debit':
-            print('Обработка дебетового типа платежа')
-            print(f'Проверка кода безопасности: {security_code}')
-            self.status = 'paid'
-        elif payment_type == 'credit':
-            print('Обработка кредитного типа платежа')
-            print(f'Проверка кода безопасности: {security_code}')
-            self.status = 'paid'
+        if payment_type == "debit":
+            print("Обработка дебетового типа платежа")
+            print(f"Проверка кода безопасности: {security_code}")
+            self.status = "paid"
+        elif payment_type == "credit":
+            print("Обработка кредитного типа платежа")
+            print(f"Проверка кода безопасности: {security_code}")
+            self.status = "paid"
         else:
-            raise Exception(f'Неизвестный способ оплаты: {payment_type}')
-
+            raise Exception(f"Неизвестный способ оплаты: {payment_type}")
 
     def __str__(self) -> str:
         """
@@ -192,12 +188,6 @@ class Order(BasePrintable):
         Returns:
             Строка с информацией о товаре, количестве и итоговой стоимости.
         """
-        items = ', '.join(
-            f'{product.name}: {quantity}'
-            for product, quantity in self.items
-        )
+        items = ", ".join(f"{product.name}: {quantity}" for product, quantity in self.items)
 
-        return (
-            f"Заказ: {items}, "
-            f"На сумму: {self.total_price} руб"
-        )
+        return f"Заказ: {items}, " f"На сумму: {self.total_price} руб"
