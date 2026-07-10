@@ -152,6 +152,17 @@ class Order(BasePrintable):
         self.items: list[tuple[Product, int]] = []
         self.status = "open"
 
+    def __str__(self) -> str:
+        """
+        Возвращает строковое представление заказа.
+
+        Returns:
+            Строка с информацией о товаре, количестве и итоговой стоимости.
+        """
+        items = ", ".join(f"{product.name}: {quantity}" for product, quantity in self.items)
+
+        return f"Заказ: {items}, " f"На сумму: {self.total_price} руб"
+
     def add_item(
         self,
         product: Product,
@@ -169,25 +180,16 @@ class Order(BasePrintable):
     def total_price(self):
         return sum(product.price * quantity for product, quantity in self.items)
 
-    def pay(self, payment_type, security_code):
-        if payment_type == "debit":
-            print("Обработка дебетового типа платежа")
-            print(f"Проверка кода безопасности: {security_code}")
-            self.status = "paid"
-        elif payment_type == "credit":
-            print("Обработка кредитного типа платежа")
-            print(f"Проверка кода безопасности: {security_code}")
-            self.status = "paid"
-        else:
-            raise Exception(f"Неизвестный способ оплаты: {payment_type}")
 
-    def __str__(self) -> str:
-        """
-        Возвращает строковое представление заказа.
 
-        Returns:
-            Строка с информацией о товаре, количестве и итоговой стоимости.
-        """
-        items = ", ".join(f"{product.name}: {quantity}" for product, quantity in self.items)
+class PaymentProcessor:
+    def process_debit_payment(self, order: Order, security_code: str) -> None:
+        print("Обработка дебетового типа платежа")
+        print(f"Проверка кода безопасности: {security_code}")
+        order.status = "paid"
+    def process_credit_payment(self, order: Order, security_code: str) -> None:
+        print("Обработка кредитного типа платежа")
+        print(f"Проверка кода безопасности: {security_code}")
+        order.status = "paid"
 
-        return f"Заказ: {items}, " f"На сумму: {self.total_price} руб"
+
