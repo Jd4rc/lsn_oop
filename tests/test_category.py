@@ -195,9 +195,9 @@ def test_payment_processor_debit_credit(payment_cls, payment_type, order, capsys
 
     processor.pay(order)
 
-    message = capsys.readouterr()
+    captured = capsys.readouterr()
 
-    assert f'Обработка {payment_type} типа платежа\nПроверка кода безопасности: 123' in message.out
+    assert f'Обработка {payment_type} типа платежа\nПроверка кода безопасности: 123' in captured.out
     assert order.status == "paid"
 
 def test_payment_processor_paypal(
@@ -207,7 +207,25 @@ def test_payment_processor_paypal(
 
     processor.pay(order)
 
-    message = capsys.readouterr()
+    captured = capsys.readouterr()
 
-    assert f'Обработка кредитного типа платежа\nИспользование адреса электронной почты: test_email@gmail.com' in message.out
+    assert f'Обработка кредитного типа платежа\nИспользование адреса электронной почты: test_email@gmail.com' in captured.out
     assert order.status == "paid"
+
+
+@pytest.mark.parametrize(
+    'payment_cls, payment_argument',
+    [
+        (DebitPaymentProcessor, '123'),
+        (PayPalPaymentProcessor, 'test_email@gmail.com'),
+    ],
+)
+def test_sms_auth_verification(order, capsys, payment_cls, payment_argument):
+    processor = payment_cls(payment_argument)
+
+    processor.auth_sms('123')
+
+    captured = capsys.readouterr()
+
+    assert 'Верификация смс-кода 123' in captured.out
+    assert processor.verified is True
