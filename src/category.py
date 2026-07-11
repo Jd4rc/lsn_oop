@@ -187,29 +187,50 @@ class PaymentProcessor(ABC):
     def pay(
             self,
             order: Order,
-            security_code: str
     ) -> None:
         pass
 
 class DebitPaymentProcessor(PaymentProcessor):
+
+    def __init__(
+            self, security_code: str
+    ) -> None:
+        self.security_code= security_code
+
     def pay(
            self,
             order: Order,
-            security_code: str
     ):
         print("Обработка дебетового типа платежа")
-        print(f"Проверка кода безопасности: {security_code}")
+        print(f"Проверка кода безопасности: {self.security_code}")
         order.status = "paid"
 
 
 class CreditPaymentProcessor(PaymentProcessor):
+    def __init__(
+            self, security_code: str
+    ) -> None:
+        self.security_code= security_code
+
     def pay(
         self,
         order: Order,
-    security_code: str
     ):
         print("Обработка кредитного типа платежа")
-        print(f"Проверка кода безопасности: {security_code}")
+        print(f"Проверка кода безопасности: {self.security_code}")
         order.status = "paid"
 
+class PayPalPaymentProcessor(PaymentProcessor):
+    def __init__(
+            self, email_address: str
+    ) -> None:
+        self.email_address = email_address
+
+    def pay(
+        self,
+        order: Order,
+    ):
+        print("Обработка кредитного типа платежа")
+        print(f"Использование адреса электронной почты: {self.email_address}")
+        order.status = "paid"
 
