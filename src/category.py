@@ -190,12 +190,29 @@ class PaymentProcessor(ABC):
     ) -> None:
         pass
 
-class DebitPaymentProcessor(PaymentProcessor):
+class PaymentProcessorSMS(PaymentProcessor):
+
+    @abstractmethod
+    def pay(
+            self,
+            order: Order,
+    ):
+      pass
+
+    @abstractmethod
+    def auth_sms(
+            self,
+            code
+    ):
+        pass
+
+class DebitPaymentProcessor(PaymentProcessorSMS):
 
     def __init__(
             self, security_code: str
     ) -> None:
         self.security_code= security_code
+        self.verified = False
 
     def pay(
            self,
@@ -204,6 +221,13 @@ class DebitPaymentProcessor(PaymentProcessor):
         print("Обработка дебетового типа платежа")
         print(f"Проверка кода безопасности: {self.security_code}")
         order.status = "paid"
+
+    def auth_sms(
+         self,
+        code
+    ):
+        print(f'Верификация смс-кода {code}')
+        self.verified = True
 
 
 class CreditPaymentProcessor(PaymentProcessor):
@@ -220,11 +244,12 @@ class CreditPaymentProcessor(PaymentProcessor):
         print(f"Проверка кода безопасности: {self.security_code}")
         order.status = "paid"
 
-class PayPalPaymentProcessor(PaymentProcessor):
+class PayPalPaymentProcessor(PaymentProcessorSMS):
     def __init__(
             self, email_address: str
     ) -> None:
         self.email_address = email_address
+        self.verified = False
 
     def pay(
         self,
@@ -233,4 +258,11 @@ class PayPalPaymentProcessor(PaymentProcessor):
         print("Обработка кредитного типа платежа")
         print(f"Использование адреса электронной почты: {self.email_address}")
         order.status = "paid"
+
+    def auth_sms(
+         self,
+        code
+    ):
+        print(f'Верификация смс-кода {code}')
+        self.verified = True
 
