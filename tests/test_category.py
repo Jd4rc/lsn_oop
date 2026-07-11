@@ -1,6 +1,6 @@
 import pytest
 
-from src.category import Category, DebitPaymentProcessor, CreditPaymentProcessor
+from src.category import Category, DebitPaymentProcessor, CreditPaymentProcessor, PayPalPaymentProcessor
 from src.category import Order
 from src.product import InvalidQuantityError
 from src.product import Product
@@ -190,12 +190,24 @@ def test_make_order_with_quantity_over():
         (CreditPaymentProcessor, 'кредитного'),
     ],
 )
-def test_payment_processor(payment_cls, payment_type, order, capsys):
-    processor = payment_cls()
+def test_payment_processor_debit_credit(payment_cls, payment_type, order, capsys):
+    processor = payment_cls('123')
 
-    processor.pay(order, '123')
+    processor.pay(order)
 
     message = capsys.readouterr()
 
     assert f'Обработка {payment_type} типа платежа\nПроверка кода безопасности: 123' in message.out
+    assert order.status == "paid"
+
+def test_payment_processor_paypal(
+        order, capsys,
+):
+    processor = PayPalPaymentProcessor('test_email@gmail.com')
+
+    processor.pay(order)
+
+    message = capsys.readouterr()
+
+    assert f'Обработка кредитного типа платежа\nИспользование адреса электронной почты: test_email@gmail.com' in message.out
     assert order.status == "paid"
