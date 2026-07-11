@@ -182,12 +182,32 @@ class Order(BasePrintable):
 
 
 
-class PaymentProcessor:
-    def process_debit_payment(self, order: Order, security_code: str) -> None:
+class PaymentProcessor(ABC):
+    @abstractmethod
+    def pay(
+            self,
+            order: Order,
+            security_code: str
+    ) -> None:
+        pass
+
+class DebitPaymentProcessor(PaymentProcessor):
+    def pay(
+           self,
+            order: Order,
+            security_code: str
+    ):
         print("Обработка дебетового типа платежа")
         print(f"Проверка кода безопасности: {security_code}")
         order.status = "paid"
-    def process_credit_payment(self, order: Order, security_code: str) -> None:
+
+
+class CreditPaymentProcessor(PaymentProcessor):
+    def pay(
+        self,
+        order: Order,
+    security_code: str
+    ):
         print("Обработка кредитного типа платежа")
         print(f"Проверка кода безопасности: {security_code}")
         order.status = "paid"
