@@ -1,6 +1,6 @@
 import pytest
 
-from src.category import Category
+from src.category import Category, Order
 from src.product import Product
 
 
@@ -84,3 +84,10 @@ def smartphones(
         description="Современные смартфоны",
         products=[phone_pixel_5, phone_iphone_16, phone_samsung_s24, phone_samsung_s25],
     )
+
+
+@pytest.fixture
+def order() -> Order:
+    order = Order()
+
+    return order

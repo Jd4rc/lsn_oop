@@ -1,6 +1,6 @@
 import pytest
 
-from src.category import Category
+from src.category import Category, DebitPaymentProcessor, CreditPaymentProcessor
 from src.category import Order
 from src.product import InvalidQuantityError
 from src.product import Product
@@ -181,3 +181,21 @@ def test_make_order_with_quantity_over():
 
     order.add_item(product1, 6)
     assert str(order) == (f"Заказ: Samsung Galaxy S23 Ultra: 6, На сумму: {product1.price * 6} руб")
+
+
+@pytest.mark.parametrize(
+    'payment_cls, payment_type',
+    [
+        (DebitPaymentProcessor, 'дебетового'),
+        (CreditPaymentProcessor, 'кредитного'),
+    ],
+)
+def test_payment_processor(payment_cls, payment_type, order, capsys):
+    processor = payment_cls()
+
+    processor.pay(order, '123')
+
+    message = capsys.readouterr()
+
+    assert f'Обработка {payment_type} типа платежа\nПроверка кода безопасности: 123' in message.out
+    assert order.status == "paid"
