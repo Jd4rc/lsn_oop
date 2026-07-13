@@ -180,6 +180,34 @@ class Order(BasePrintable):
     def total_price(self):
         return sum(product.price * quantity for product, quantity in self.items)
 
+class Authorizer(ABC):
+    @abstractmethod
+    def is_authorized(self) -> bool:
+        pass
+
+class AuthorizerSMS(Authorizer):
+    def __init__(self):
+        self.authorized = False
+
+    def verify_code(self, code):
+        print(f'Верификация по СМС: {code}')
+        self.authorized = True
+
+    def is_authorized(self) -> bool:
+        return self.authorized
+
+class AuthorizerCaptcha(Authorizer):
+
+    def __init__(self):
+        self.authorized = False
+
+    def not_a_robot(self):
+        print(f'Верификация по капче')
+        self.authorized = True
+
+    def is_authorized(self) -> bool:
+        return self.authorized
+
 
 
 class PaymentProcessor(ABC):
@@ -190,44 +218,28 @@ class PaymentProcessor(ABC):
     ) -> None:
         pass
 
-class PaymentProcessorSMS(PaymentProcessor):
 
-    @abstractmethod
-    def pay(
-            self,
-            order: Order,
-    ):
-      pass
-
-    @abstractmethod
-    def auth_sms(
-            self,
-            code
-    ):
-        pass
-
-class DebitPaymentProcessor(PaymentProcessorSMS):
+class DebitPaymentProcessor(PaymentProcessor):
 
     def __init__(
-            self, security_code: str
+            self,
+            security_code: str,
+            authorizer: Authorizer,
     ) -> None:
         self.security_code= security_code
         self.verified = False
+        self.authorizer = authorizer
 
     def pay(
            self,
             order: Order,
     ):
+        if not self.authorizer.is_authorized():
+            raise Exception('Не авторизован')
         print("Обработка дебетового типа платежа")
         print(f"Проверка кода безопасности: {self.security_code}")
         order.status = "paid"
 
-    def auth_sms(
-         self,
-        code
-    ):
-        print(f'Верификация смс-кода {code}')
-        self.verified = True
 
 
 class CreditPaymentProcessor(PaymentProcessor):
@@ -244,25 +256,24 @@ class CreditPaymentProcessor(PaymentProcessor):
         print(f"Проверка кода безопасности: {self.security_code}")
         order.status = "paid"
 
-class PayPalPaymentProcessor(PaymentProcessorSMS):
+class PayPalPaymentProcessor(PaymentProcessor):
     def __init__(
-            self, email_address: str
+            self,
+            email_address: str,
+            authorizer: Authorizer,
     ) -> None:
         self.email_address = email_address
         self.verified = False
+        self.authorizer = authorizer
 
     def pay(
         self,
         order: Order,
     ):
+        if not self.authorizer.is_authorized():
+            raise Exception('Не авторизован')
         print("Обработка кредитного типа платежа")
         print(f"Использование адреса электронной почты: {self.email_address}")
         order.status = "paid"
 
-    def auth_sms(
-         self,
-        code
-    ):
-        print(f'Верификация смс-кода {code}')
-        self.verified = True
 
