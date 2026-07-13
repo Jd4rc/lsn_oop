@@ -1,6 +1,6 @@
 import pytest
 
-from src.category import Category, Order
+from src.category import Category, Order, Authorizer, AuthorizerSMS
 from src.product import Product
 
 
@@ -91,3 +91,8 @@ def order() -> Order:
     order = Order()
 
     return order
+
+@pytest.fixture
+def authorizer() -> AuthorizerSMS:
+    authorizer = AuthorizerSMS()
+    return authorizer

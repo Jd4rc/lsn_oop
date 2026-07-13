@@ -182,35 +182,26 @@ def test_make_order_with_quantity_over():
     order.add_item(product1, 6)
     assert str(order) == (f"Заказ: Samsung Galaxy S23 Ultra: 6, На сумму: {product1.price * 6} руб")
 
-
-@pytest.mark.parametrize(
-    'payment_cls, payment_type',
-    [
-        (DebitPaymentProcessor, 'дебетового'),
-        (CreditPaymentProcessor, 'кредитного'),
-    ],
-)
-def test_payment_processor_debit_credit(payment_cls, payment_type, order, capsys):
-    processor = payment_cls('123')
-
-    processor.pay(order)
-
-    captured = capsys.readouterr()
-
-    assert f'Обработка {payment_type} типа платежа\nПроверка кода безопасности: 123' in captured.out
-    assert order.status == "paid"
-
 def test_payment_processor_paypal(
-        order, capsys,
+        order,
+        capsys,
+        authorizer
 ):
-    processor = PayPalPaymentProcessor('test_email@gmail.com')
+    processor = PayPalPaymentProcessor(
+        'test_email@gmail.com',
+        authorizer
+    )
+
+    authorizer.verify_code('123')
 
     processor.pay(order)
 
     captured = capsys.readouterr()
 
     assert f'Обработка кредитного типа платежа\nИспользование адреса электронной почты: test_email@gmail.com' in captured.out
+    assert 'Верификация по СМС: 123' in captured.out
     assert order.status == "paid"
+    assert authorizer.is_authorized() is True
 
 
 @pytest.mark.parametrize(
@@ -220,12 +211,19 @@ def test_payment_processor_paypal(
         (PayPalPaymentProcessor, 'test_email@gmail.com'),
     ],
 )
-def test_sms_auth_verification(order, capsys, payment_cls, payment_argument):
-    processor = payment_cls(payment_argument)
+def test_auth_verification_debit_paypal(
+        order,
+        capsys,
+        payment_cls,
+        payment_argument,
+        authorizer
 
-    processor.auth_sms('123')
+):
+    processor = payment_cls(payment_argument, authorizer)
+
+    authorizer.verify_code(payment_argument)
 
     captured = capsys.readouterr()
 
-    assert 'Верификация смс-кода 123' in captured.out
-    assert processor.verified is True
+    assert authorizer.is_authorized() is True
+    assert f'Верификация по СМС: {payment_argument}\n' in captured
