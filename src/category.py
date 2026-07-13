@@ -152,6 +152,17 @@ class Order(BasePrintable):
         self.items: list[tuple[Product, int]] = []
         self.status = "open"
 
+    def __str__(self) -> str:
+        """
+        Возвращает строковое представление заказа.
+
+        Returns:
+            Строка с информацией о товаре, количестве и итоговой стоимости.
+        """
+        items = ", ".join(f"{product.name}: {quantity}" for product, quantity in self.items)
+
+        return f"Заказ: {items}, " f"На сумму: {self.total_price} руб"
+
     def add_item(
         self,
         product: Product,
@@ -169,25 +180,100 @@ class Order(BasePrintable):
     def total_price(self):
         return sum(product.price * quantity for product, quantity in self.items)
 
-    def pay(self, payment_type, security_code):
-        if payment_type == "debit":
-            print("Обработка дебетового типа платежа")
-            print(f"Проверка кода безопасности: {security_code}")
-            self.status = "paid"
-        elif payment_type == "credit":
-            print("Обработка кредитного типа платежа")
-            print(f"Проверка кода безопасности: {security_code}")
-            self.status = "paid"
-        else:
-            raise Exception(f"Неизвестный способ оплаты: {payment_type}")
+class Authorizer(ABC):
+    @abstractmethod
+    def is_authorized(self) -> bool:
+        pass
 
-    def __str__(self) -> str:
-        """
-        Возвращает строковое представление заказа.
+class AuthorizerSMS(Authorizer):
+    def __init__(self):
+        self.authorized = False
 
-        Returns:
-            Строка с информацией о товаре, количестве и итоговой стоимости.
-        """
-        items = ", ".join(f"{product.name}: {quantity}" for product, quantity in self.items)
+    def verify_code(self, code):
+        print(f'Верификация по СМС: {code}')
+        self.authorized = True
 
-        return f"Заказ: {items}, " f"На сумму: {self.total_price} руб"
+    def is_authorized(self) -> bool:
+        return self.authorized
+
+class AuthorizerCaptcha(Authorizer):
+
+    def __init__(self):
+        self.authorized = False
+
+    def not_a_robot(self):
+        print(f'Верификация по капче')
+        self.authorized = True
+
+    def is_authorized(self) -> bool:
+        return self.authorized
+
+
+
+class PaymentProcessor(ABC):
+    @abstractmethod
+    def pay(
+            self,
+            order: Order,
+    ) -> None:
+        pass
+
+
+class DebitPaymentProcessor(PaymentProcessor):
+
+    def __init__(
+            self,
+            security_code: str,
+            authorizer: Authorizer,
+    ) -> None:
+        self.security_code= security_code
+        self.verified = False
+        self.authorizer = authorizer
+
+    def pay(
+           self,
+            order: Order,
+    ):
+        if not self.authorizer.is_authorized():
+            raise Exception('Не авторизован')
+        print("Обработка дебетового типа платежа")
+        print(f"Проверка кода безопасности: {self.security_code}")
+        order.status = "paid"
+
+
+
+class CreditPaymentProcessor(PaymentProcessor):
+    def __init__(
+            self, security_code: str
+    ) -> None:
+        self.security_code= security_code
+
+    def pay(
+        self,
+        order: Order,
+    ):
+        print("Обработка кредитного типа платежа")
+        print(f"Проверка кода безопасности: {self.security_code}")
+        order.status = "paid"
+
+class PayPalPaymentProcessor(PaymentProcessor):
+    def __init__(
+            self,
+            email_address: str,
+            authorizer: Authorizer,
+    ) -> None:
+        self.email_address = email_address
+        self.verified = False
+        self.authorizer = authorizer
+
+    def pay(
+        self,
+        order: Order,
+    ):
+        if not self.authorizer.is_authorized():
+            raise Exception('Не авторизован')
+        print("Обработка кредитного типа платежа")
+        print(f"Использование адреса электронной почты: {self.email_address}")
+        order.status = "paid"
+
+

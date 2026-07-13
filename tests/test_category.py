@@ -1,6 +1,6 @@
 import pytest
 
-from src.category import Category
+from src.category import Category, DebitPaymentProcessor, CreditPaymentProcessor, PayPalPaymentProcessor
 from src.category import Order
 from src.product import InvalidQuantityError
 from src.product import Product
@@ -181,3 +181,49 @@ def test_make_order_with_quantity_over():
 
     order.add_item(product1, 6)
     assert str(order) == (f"Заказ: Samsung Galaxy S23 Ultra: 6, На сумму: {product1.price * 6} руб")
+
+def test_payment_processor_paypal(
+        order,
+        capsys,
+        authorizer
+):
+    processor = PayPalPaymentProcessor(
+        'test_email@gmail.com',
+        authorizer
+    )
+
+    authorizer.verify_code('123')
+
+    processor.pay(order)
+
+    captured = capsys.readouterr()
+
+    assert f'Обработка кредитного типа платежа\nИспользование адреса электронной почты: test_email@gmail.com' in captured.out
+    assert 'Верификация по СМС: 123' in captured.out
+    assert order.status == "paid"
+    assert authorizer.is_authorized() is True
+
+
+@pytest.mark.parametrize(
+    'payment_cls, payment_argument',
+    [
+        (DebitPaymentProcessor, '123'),
+        (PayPalPaymentProcessor, 'test_email@gmail.com'),
+    ],
+)
+def test_auth_verification_debit_paypal(
+        order,
+        capsys,
+        payment_cls,
+        payment_argument,
+        authorizer
+
+):
+    processor = payment_cls(payment_argument, authorizer)
+
+    authorizer.verify_code(payment_argument)
+
+    captured = capsys.readouterr()
+
+    assert authorizer.is_authorized() is True
+    assert f'Верификация по СМС: {payment_argument}\n' in captured
