@@ -148,11 +148,29 @@ middle_price = total_cost / total_quantity
 ```text
 .
 ├── data/
+├── htmlcov/
 ├── src/
-│   ├── Category.py
-│   ├── Product.py
+│   ├── lesson_14/
+│   ├── lesson_15/
+│   ├── lesson_16/
+│   ├── lesson_17/
+│   ├── __init__.py
+│   ├── category.py
+│   ├── exceptions.py
+│   ├── product.py
 │   └── utils.py
 ├── tests/
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── test_category.py
+│   ├── test_product.py
+│   └── test_utils.py
+├── .coverage
+├── .coveragerc
+├── .flake8
+├── .gitignore
+├── LICENSE
+├── poetry.lock
 ├── pyproject.toml
 └── README.md
 ```
